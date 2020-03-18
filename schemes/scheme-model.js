@@ -21,10 +21,20 @@ function findById(id) {
 
 function findSteps(id) {
 
+
 }
 
 function add(scheme) {
-
+    const schemeData = req.body;
+    return db("schemes")
+      .insert(schemeData, "id")
+      .then(ids => {
+          db("schemes")
+           .where({ id: ids[0]})
+           .then(() => {
+               return findById(id);
+           })
+      })
 }
 
 function update(changes, id) {
@@ -37,5 +47,7 @@ function update(changes, id) {
 }
 
 function remove(id) {
-    
+    return db("schemes")
+     .where("id", id)
+     .del();
 }
